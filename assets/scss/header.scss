@@ -1,0 +1,23 @@
+#pages-link {
+    display: flex;
+    list-style-type: none;
+    margin: 0;
+    li{
+        margin-left: 20px;
+        a {
+            text-decoration: none;
+            color: white;
+        }
+    }
+    
+}
+#head {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px 10px 10px 10px;
+    font-size: 1.5rem;
+    background-color: blue;
+    color: white;
+    font-weight: 900;
+}

@@ -1,0 +1,12 @@
+#foot {
+  display: flex;
+  color: white;
+  font-weight: 900;
+  background-color: darkgray;
+  padding: 10px 0px; }
+
+#links {
+  margin-left: 20px;
+  list-style-type: none; }
+  #links a {
+    text-decoration: none; }
