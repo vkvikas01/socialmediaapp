@@ -13,9 +13,11 @@ module.exports.profile = function(req,res){
 module.exports.update = function(req,res){
     if(req.user.id == req.params.id){
         User.findByIdAndUpdate(req.params.id, req.body, function(err,user){
+            req.flash('success','User Modified');
             return res.redirect('back');
         });
     }else{
+        req.flash('success','User not authorized');
         return res.status(401).send('Unauthorized');
     }
 }
@@ -43,6 +45,7 @@ module.exports.signIn = function(req,res){
 // get sign up data
 module.exports.create = function(req,res){
     if(req.body.password != req.body.conform_password){
+        req.flash('error','password and conform password are different');
         return res.redirect('back');
     }
 
@@ -51,8 +54,8 @@ module.exports.create = function(req,res){
 
         if(!user){
             User.create(req.body,function(err,user){
-                if(err){console.log('error in creating user while signing in'); return}
-                
+                if(err){req.flash('error','error in creating user while signing in'); return res.redirect('back');}
+                req.flash('success','New User Created');
                 return res.redirect('/users/sign-in');
             })
         }else{
