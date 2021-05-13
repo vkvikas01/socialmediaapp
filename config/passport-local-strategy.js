@@ -31,12 +31,12 @@ passport.use(new LocalStrategy({
 
 // serialize the user to decide which key is to kept in the cookie
 passport.serializeUser(function(user,done){
-    done(null,user);
+    done(null,user.id);
 });
 
 // deserialize the user from the key in the cookie
 passport.deserializeUser(function(id,done){
-    User.findOne(id,function(err,user){
+    User.findById(id,function(err,user){
         if(err){
             console.log('Error in finding user --> Passport');
             return done(err);
@@ -51,7 +51,7 @@ passport.checkAuthentication = function(req,res,next){
     if(req.isAuthenticated()){
         return next();
     }
-
+console.log("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
     // if the user is not signed in
     return res.redirect('/users/sign-in');
 }
