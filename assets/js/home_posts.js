@@ -14,6 +14,19 @@
                 let newPost = newPostDom(data.data.post);
                 $('#posts-list-container>ul').prepend(newPost);
                 deletePost($(' .delete-post-button',newPost));
+
+
+                // displaying noty notification in AJAX
+                new Noty({
+                    theme: 'relax',
+                    text: 'Post published!',
+                    type: 'success',
+                    layout: 'topRight',
+                    timeout: 1500
+
+                }).show();
+
+
             },error: function(error){
                 console.log(error.responseText);
             }
@@ -66,6 +79,17 @@
                 url: $(deleteLink).prop('href'),
                 success: function(data){
                     $(`#post-${ data.data.post_id }`).remove();
+
+                    // displaying noty noty notification while deleting post by ajax
+                    new Noty({
+                        theme: 'relax',
+                        text: 'Post and associated comments deleted!',
+                        type: 'success',
+                        layout: 'topRight',
+                        timeout: '1500'
+
+                    }).show();
+
                 },error: function(error){
                     console.log(error.responseText);
                 }
