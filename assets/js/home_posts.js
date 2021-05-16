@@ -15,6 +15,9 @@
                 $('#posts-list-container>ul').prepend(newPost);
                 deletePost($(' .delete-post-button',newPost));
 
+                // call the create comment class
+                new PostCommets(data.data.post._id);
+
 
                 // displaying noty notification in AJAX
                 new Noty({
@@ -80,7 +83,7 @@
                 success: function(data){
                     $(`#post-${ data.data.post_id }`).remove();
 
-                    // displaying noty noty notification while deleting post by ajax
+                    // displaying noty notification while deleting post by ajax
                     new Noty({
                         theme: 'relax',
                         text: 'Post and associated comments deleted!',
@@ -96,6 +99,21 @@
             });
         });
     }
+
+    // loop over all the existing posts on the page (when the window loads for the first time) and call the delete post method on delete link of each, also add AJAX (using the class we've created) to the delete button of each
+    let convertPostsToAjax = function(){
+        $('#posts-list-container>ul>li').each(function(){
+            let self = $(this);
+            let deleteButton = $(' .delete-post-button', self);
+            deletePost(deleteButton);
+
+            // get the post's id by splitting the id attribute
+            let postId = self.prop('id').split("-")[1]
+            // new PostComments(postId);
+
+        });
+    }
                 
     createPost();
+    convertPostsToAjax();
 }
