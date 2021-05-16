@@ -13,9 +13,8 @@ module.exports.create = async function(req,res){
                 user: req.user._id
             });
             // handle error
-    console.log('fdajfhkadffdahdf');
+            
             if(req.xhr){
-console.log("bfdnfndjfdfjkndfdfhbdsfwehjbnfdcdf");
                 // if we want to populate just the name of the user(we'll not want to send the passpword in the API), this is how we do it!
             comment = await comment.populate('user', 'name').execPopulate();
 
@@ -51,9 +50,8 @@ module.exports.destroy = async function(req,res){
             let postId = comment.post;
 
             comment.remove();
-console.log(req.xhr);
             if(req.xhr){
-                // Post.findByIdAndUpdate(postId, { $pull: {comments: req.params.id}} );
+                let post = Post.findByIdAndUpdate(postId, { $pull: {comments: req.params.id}} );
                 console.log('fjafhafadf');
                 return res.status(200).json({
                     data: {

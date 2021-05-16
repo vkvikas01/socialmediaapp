@@ -1,43 +1,62 @@
-{
+// Let's implement this via classes
 
-    // method to submit the form data for new comment using AJAX
-    let createComment = function(){
-        let newCommentForm = $('#new-comment-form');
-        console.log("hfjdfdsfadsfjkfadfa");
-        newCommentForm.submit(function(e){
-            console.log("fffffffffffffff");
+// this class would be initialized for every post on the page
+// 1. When the page loads
+// 2. Creation of every post dynamically via AJAX
+
+class PostComments{
+    // constructor is used to initialize the instance of the class whenever a new instance is created
+    constructor(postId){
+        this.postId = postId;
+        this.postContainer = $(`#post-${postId}`);
+        this.newCommentForm = $(`#post-${postId}-comments-form`);
+
+        this.createComment(postId);
+
+        let self = this;
+        // call for all the existing comments
+        $(' .delete-comment-button', this.postContainer).each(function(){
+            self.deleteComment($(this));
+        });
+    }
+
+
+    createComment(postId){
+        let pSelf = this;
+        this.newCommentForm.submit(function(e){
             e.preventDefault();
-            
+            let self = this;
+
             $.ajax({
                 type: 'post',
                 url: '/comments/create',
-                data: newCommentForm.serialize(),
+                data: $(self).serialize(),
                 success: function(data){
-
-                    let newComment = newCommentDom(data.data.comment);
-                    $('#post-comments-list>ul').prepend(newComment);
-                    deleteComment($(' .delete-comment-button', newComment));
+                    let newComment = pSelf.newCommentDom(data.data.comment);
+                    $(`#post-comments-${postId}`).prepend(newComment);
+                    pSelf.deleteComment($(' .delete-comment-button', newComment));
 
                     new Noty({
                         theme: 'relax',
-                        text: 'Comment published!',
+                        text: "Comment published!",
                         type: 'success',
                         layout: 'topRight',
                         timeout: 1500
-    
+                        
                     }).show();
 
-                },error: function(error){
+                }, error: function(error){
                     console.log(error.responseText);
                 }
             });
 
+
         });
     }
 
-    
-    // method to create comment in DOM
-    let newCommentDom = function(comment){
+
+    newCommentDom(comment){
+        // I've added a class 'delete-comment-button' to the delete comment link and also id to the comment's li
         return $(`<li id="comment-${ comment._id }">
                         <p>
                             
@@ -55,39 +74,30 @@
                 </li>`);
     }
 
-    // method to delete comment for DOM
-     let deleteComment = function(deleteLink){
-        console.log("oooooooooooooooooooooooooo");
+
+    deleteComment(deleteLink){
         $(deleteLink).click(function(e){
             e.preventDefault();
 
-        // $.ajax({
-        //     type: 'get',
-        //     url: $(deleteLink).prop('href'),
-        //     success: function(data){
-        //         $(`#comment-${ data.data.comment_id }`).remove();
+            $.ajax({
+                type: 'get',
+                url: $(deleteLink).prop('href'),
+                success: function(data){
+                    $(`#comment-${data.data.comment_id}`).remove();
 
-        //         // displaying noty notification while deleting comment by ajax
-        //         new Noty({
-        //             theme: 'relax',
-        //             text: 'Comment deleted!',
-        //             type: 'success',
-        //             layout: 'topRight',
-        //             timeout: '1500'
+                    new Noty({
+                        theme: 'relax',
+                        text: "Comment Deleted",
+                        type: 'success',
+                        layout: 'topRight',
+                        timeout: 1500
+                        
+                    }).show();
+                },error: function(error){
+                    console.log(error.responseText);
+                }
+            });
 
-        //         }).show();
-
-        //     },error: function(error){
-        //         console.log(error.responseText);
-        //     }
-        // });
-    });
-        
-
+        });
     }
-
-
-    createComment();
-
-
 }

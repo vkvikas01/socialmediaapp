@@ -56,7 +56,7 @@
                     <div class="post-comments">
 
                 
-                            <form action="/comments/create" method="POST">
+                            <form action="/comments/create" id="post-${` post._id `}-comments-form" method="POST">
                                 <input type="text" name="content" placeholder="Type Here to add comments..." required>
                                 <input type="hidden" name="post" value="${ post._id }">
                                 <input type="submit" value="Add Comments">
@@ -109,7 +109,7 @@
 
             // get the post's id by splitting the id attribute
             let postId = self.prop('id').split("-")[1]
-            // new PostComments(postId);
+            new PostComments(postId);
 
         });
     }
