@@ -1,4 +1,6 @@
 const User = require("../models/user");
+const fs = require('fs');
+const path = require('path');
 
 module.exports.profile = function(req,res){
     User.findById(req.params.id, function(err,user){
@@ -10,17 +12,55 @@ module.exports.profile = function(req,res){
     
 }
 
-module.exports.update = function(req,res){
+module.exports.update = async function(req,res){
+    // if(req.user.id == req.params.id){
+    //     console.log('inside update controlle');
+    //     User.findByIdAndUpdate(req.params.id, req.body, function(err,user){
+    //         req.flash('success','User Modified');
+    //         return res.redirect('back');
+    //     });
+    // }else{
+    //     req.flash('success','User not authorized');
+    //     return res.status(401).send('Unauthorized');
+    // }
+
     if(req.user.id == req.params.id){
-        console.log('inside update controlle');
-        User.findByIdAndUpdate(req.params.id, req.body, function(err,user){
-            req.flash('success','User Modified');
+        
+        try{
+
+            let user = await User.findById(req.params.id);
+            User.uploadedAvatar(req,res,function(err){
+                if(err){
+                    console.log('******Multer Error',err);
+                }
+                user.name = req.body.name;
+                user.email = req.body.email;
+
+                if(req.file){
+
+                    if(user.avatar){
+                        // if initially we does not have any image uploaded then it will give error because image is not there and we are finding it and to solve this condition we can solve it by fs(file system) search on google
+                        fs.unlinkSync(path.join(__dirname, '..',user.avatar));
+                    }
+
+                    // this is saving path of uploaded file into the path field of user
+                    user.avatar = User.avatarPath + '/' + req.file.filename;
+                }
+                user.save();
+                return res.redirect('back');
+
+            });
+
+        }catch(err){
+            req.flash('error',err);
             return res.redirect('back');
-        });
+        }
+
     }else{
-        req.flash('success','User not authorized');
-        return res.status(401).send('Unauthorized');
-    }
+            req.flash('success','User not authorized');
+            return res.status(401).send('Unauthorized');
+        }
+
 }
 
 // render the sign up page

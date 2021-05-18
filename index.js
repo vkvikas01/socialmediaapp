@@ -22,11 +22,13 @@ app.use(sassMiddleware({
     prefix: '/css'     // Where prefix is at <link rel="stylesheets" href="prefix/style.css"/>
 }));
 
-app.use(express.static('./assets'));
-
 app.use(express.urlencoded());
 
 app.use(cookieParser());
+
+app.use(express.static('./assets'));
+// make the uploads available to the browser
+app.use('/uploads',express.static(__dirname+'/uploads'));
 
 app.use(expressLayouts);
 //extract style and script from sub pages into the layout
