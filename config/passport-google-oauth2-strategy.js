@@ -11,13 +11,16 @@ passport.use(new googleStrategy({
     },
     function(accessToken, refresh, profile, done){
         // find a user
-        User.findOne({email:profile.email[0].value}).exec(function(err,user){
+        User.findOne({email:profile.emails[0].value}).exec(function(err,user){
             if(err){
                 console.log('error in google strategy', err); return; 
             }
             console.log(profile);
 
-            if(err){
+            if(user){
+                // if found, set this user as req.user
+                return done(null, user);
+            }else{
                 // if not found create the user and set as req.user
                 User.create({
                     name: profile.displayName,
