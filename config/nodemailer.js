@@ -19,7 +19,7 @@ let renderTemplate = (data , relativePath) => {
         path.join(__dirname, '../views/mailers', relativePath),
         data,
         function(err, template){
-            if(err){ console.log('error in running template'); return; }
+            if(err){ console.log('error in running template', err); return; }
 
             mailHTML = template;
         }
