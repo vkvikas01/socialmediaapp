@@ -20,7 +20,8 @@
                 // call the create comment class
                 new PostComments(data.data.post._id);
 
-                new ToggleLike(' .toggle-like-button', newPost);
+                // enable the functionality of toggle like on the new comment
+                new ToggleLike($(' .toggle-like-button', newPost));
 
 
                 // displaying noty notification in AJAX
@@ -58,25 +59,28 @@
                         </small>
                         <br>
                         <small>
-                                <a href = "/likes/toggle/?id=${post.id}&type=Post" class="toggle-like-button" data-likes = "<%= post.likes.length %>">0 Likes</a>      
+                                <a href = "/likes/toggle/?id=${post._id}&type=Post" class="toggle-like-button" data-likes = "${ post.likes.length }">0 Likes</a>      
                         </small>
                     </p>
                     <div class="post-comments">
 
                 
-                            <form action="/comments/create" id="post-${` post._id `}-comments-form" method="POST">
+                            <form action="/comments/create" id="post-${ post._id }-comments-form" method="POST">
                                 <input type="text" name="content" placeholder="Type Here to add comments..." required>
                                 <input type="hidden" name="post" value="${ post._id }">
                                 <input type="submit" value="Add Comments">
                             </form>
-                        
-                        <div class="post-comments-list">
-                            <ul class="post-comment-${ post._id }">
-                                
-                            </ul>
+
+                            <div class="post-comments-list">
+                                <ul id="post-comments-${ post._id }">
+                                    
+                                </ul>
                         </div>
-                
+                        
+                        
                     </div>
+                
+                    
                 </li>`)
     }
 

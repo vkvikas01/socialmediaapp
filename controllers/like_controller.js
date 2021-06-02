@@ -41,6 +41,8 @@ module.exports.toggleLike = async function(req,res){
             likeable.likes.push(newLike._id);
             likeable.save();
 
+            deleted = false;
+
         }
 
         return res.json({

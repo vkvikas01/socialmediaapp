@@ -36,7 +36,8 @@ class PostComments{
                     $(`#post-comments-${postId}`).prepend(newComment);
                     pSelf.deleteComment($(' .delete-comment-button', newComment));
 
-                    new ToggleLike(' .toggle-like-button', newComment);
+                    // enable the functionality of the toggle like button on the new comment
+                    new ToggleLike($(' .toggle-like-button', newComment));
 
                     new Noty({
                         theme: 'relax',
@@ -65,16 +66,17 @@ class PostComments{
                             <small>
                                 <a class="delete-comment-button" href="/comments/destroy/${comment._id}">X</a>
                             </small>
-                            <br>
-                            <small>
-                                    <a href = "/likes/toggle/?id=${comment.id}&type=Post" class="toggle-like-button" data-likes = "<%= post.likes.length %>">0 likes</a>
-                            </small>
                             
                             ${comment.content}
                             <br>
                             <small>
                                 ${comment.user.name}
                             </small>
+                            <br>
+                            <small>
+                                    <a href = "/likes/toggle/?id=${comment._id}&type=Comment" class="toggle-like-button" data-likes = "${ comment.likes.length }">0 Likes</a>
+                            </small>
+
                         </p>    
 
                 </li>`);

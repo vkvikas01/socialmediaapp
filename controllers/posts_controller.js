@@ -36,10 +36,10 @@ module.exports.destroy = async function(req,res){
         // .id means converting the objectId to string (given by mongoose)
         if(post.user == req.user.id){
 
+            // delete the associated like for the post and all its comments' likes to
 
-
-            Like.deleteMany({likeable: post.id , onModel: 'Post'});
-            Like.deleteMany({_id: {$in: post.comment}});
+            await Like.deleteMany({likeable: post , onModel: 'Post'});
+            await Like.deleteMany({_id: {$in: post.comments}});
 
 
 

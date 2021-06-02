@@ -14,7 +14,7 @@ class ToggleLike{
             let self = this;
         
 
-            // Way to writting ajax, this might look same as promises
+            // New way to writting ajax, this might look same as promises
             $.ajax({
                 type: 'POST',
                 url: $(self).attr('href')

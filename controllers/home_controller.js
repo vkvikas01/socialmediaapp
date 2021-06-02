@@ -16,6 +16,7 @@ module.exports.home = async function(req, res){
 
     try{
         // Populate the user of each post
+        // Populate the likes of each post and comment (Added when doing likes feature)
         let posts = await Post.find({})
         .sort('-createdAt')
         .populate('user')

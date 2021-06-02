@@ -68,8 +68,8 @@ module.exports.destroy = async function(req,res){
 
 
 
-            
-            Like.deleteMany({likeable: comment._id , onModel: 'Comment'});
+            // destroy the associated likes for this comment
+            await Like.deleteMany({likeable: comment._id , onModel: 'Comment'});
 
 
 
