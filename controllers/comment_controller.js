@@ -1,8 +1,9 @@
 const Comment = require('../models/comment');
 const Post = require('../models/post');
-const commentsMailer = require('../mailers/comments_mailer');
-const queue = require('../config/kue');
-const commentEmailWorker = require('../workers/comments_email_worker');
+// const commentsMailer = require('../mailers/comments_mailer');
+// const queue = require('../config/kue');
+// const commentEmailWorker = require('../workers/comments_email_worker');
+const Like = require('../models/like');
 
 
 module.exports.create = async function(req,res){
@@ -25,13 +26,13 @@ module.exports.create = async function(req,res){
             comment = await comment.populate('user', 'name email').execPopulate();
             // commentsMailer.newComment(comment);
 
-            let job = queue.create('emails', comment).save(function(err){
-                if(err){
-                    console.log('Error in sending to the queue', err);
-                    return;
-                }
-                console.log('job enqueued', job.id);
-            })
+            // let job = queue.create('emails', comment).save(function(err){
+            //     if(err){
+            //         console.log('Error in sending to the queue', err);
+            //         return;
+            //     }
+            //     console.log('job enqueued', job.id);
+            // })
             
             if(req.xhr){
                 // if we want to populate just the name of the user(we'll not want to send the passpword in the API), this is how we do it!
@@ -64,6 +65,14 @@ module.exports.destroy = async function(req,res){
         let comment = await Comment.findById(req.params.id);
 
         if(comment.user == req.user.id){
+
+
+
+            
+            Like.deleteMany({likeable: comment._id , onModel: 'Comment'});
+
+
+
             let postId = comment.post;
 
             comment.remove();

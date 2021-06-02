@@ -1,3 +1,5 @@
+// const { toggleLike } = require("../../controllers/like_controller");
+
 {
     // method to submit the form data for new post using AJAX
     let createPost = function(){
@@ -16,7 +18,9 @@
                 deletePost($(' .delete-post-button',newPost));
 
                 // call the create comment class
-                new PostCommets(data.data.post._id);
+                new PostComments(data.data.post._id);
+
+                new ToggleLike(' .toggle-like-button', newPost);
 
 
                 // displaying noty notification in AJAX
@@ -49,9 +53,13 @@
                         
                         ${ post.content }
                             <br>
-                            <small>
+                        <small>
                             ${ post.user.name }
-                            </small>
+                        </small>
+                        <br>
+                        <small>
+                                <a href = "/likes/toggle/?id=${post.id}&type=Post" class="toggle-like-button" data-likes = "<%= post.likes.length %>">0 Likes</a>      
+                        </small>
                     </p>
                     <div class="post-comments">
 
