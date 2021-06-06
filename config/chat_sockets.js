@@ -18,5 +18,10 @@ module.exports.chatSockets = function(socketServer){
             io.in(data.chatroom).emit('user_joined', data);
         });
 
+        // detect send message and broadcast to every one in the group
+        socket.on('send_message',function(data){
+            io.in(data.chatroom).emit('receive_message', data);
+        });
+
     });
 }
