@@ -1,0 +1,4 @@
+::1 - - [09/Jun/2021:08:15:52 +0000] "GET / HTTP/1.1" 200 5819 "http://localhost:8000/users/sign-in" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36"
+::1 - - [09/Jun/2021:08:16:07 +0000] "GET /users/profile HTTP/1.1" 404 152 "http://localhost:8000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36"
+::1 - - [09/Jun/2021:08:16:15 +0000] "GET /users/profile/60bff97280ff82516c36d9e3 HTTP/1.1" 200 2247 "http://localhost:8000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36"
+::1 - - [09/Jun/2021:08:16:27 +0000] "GET /users/profile/60bff97280ff82516c36d9e3 HTTP/1.1" 304 - "http://localhost:8000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36"
