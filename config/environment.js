@@ -65,8 +65,9 @@ const production = {
     }
 }
 
-console.log(process.env.CODEIAL_ENVIRONMENT);
+// console.log(process.env.CODEIAL_ENVIRONMENT);
 
+// if we want to run in development mode uncomment this and comment eval line
 // module.exports = development;
 
 // npm install -g win-node-env use this to run the ===== npm run prod_start      (-g in the install command to install package globally)
